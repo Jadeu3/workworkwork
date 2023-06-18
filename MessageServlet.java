@@ -1,3 +1,5 @@
+package com.lgcns.test;
+
 import java.io.IOException;
 
 import javax.servlet.http.HttpServlet;
@@ -10,17 +12,29 @@ import com.google.gson.JsonObject;
 public class MessageServlet extends HttpServlet{
 	
 	private final long serialVersionUID = 1L;
+
+	// 범용
+	public void service(HttpServletRequest req, HttpServletResponse res) {
+
+		String method = req.getMethod(); //method 구분 
+						
+		
+	}
 	
 	// get 
 	public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException{
 		
 		String uriPath = req.getRequestURI();
-		System.out.println(uriPath);
-		String[] uriParamList = uriPath.split("/");
-		String cmd = uriParamList[1];
-		String qName = uriParamList[2];
+		// json 에서 Rule 가져옴
+		String nextTarget = "http://127.0.0.1";
 		
-		JsonObject result = MessageService.messageService(cmd, qName, req);
+				
+				
+			
+		System.out.println("====uri:" + uriPath);
+		String[] uriParamList = uriPath.split("/");
+		
+		JsonObject result = MessageService.messageService(uriParamList, req);
 		
 		Gson gson = new Gson();
 		res.setContentType("application/json");
@@ -33,13 +47,9 @@ public class MessageServlet extends HttpServlet{
 	// post
 	public void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException {
 		String uriPath = req.getRequestURI();
-		System.out.println(uriPath);
 		String[] uriParamList = uriPath.split("/");
 		
-		String cmd = uriParamList[1];
-		String qName = uriParamList[2];
-		
-		JsonObject result = MessageService.messageService(cmd, qName, req);
+		JsonObject result = MessageService.messageService(uriParamList, req);
 		
 		Gson gson = new Gson();
 		res.setContentType("application/json");
